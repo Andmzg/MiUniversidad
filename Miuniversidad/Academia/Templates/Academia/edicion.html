@@ -1,0 +1,56 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block title %} Cursos {% endblock  %}
+
+{% block body %}    
+    <div class="row">
+        <div class="col-md4 offset-md4" >
+            <h2>Edicion de cursos</h2>
+            <div class="card">
+                <div class="card-body py-4" >
+                    <form action="{% url 'academia:edit' %}" method = "POST"> {% csrf_token %}
+                        <div class="form-group py-1">
+                            <input type="text" id = "txtcodigo" name="txtcodigo" value="{{curso.codigo}}" class="form-control" 
+                            placeholder="codigo" minlength="6" maxlength="6" readonly required>
+                        </div> 
+                        <div class="form-group">
+                            <select id="txtnombre" name="txtnombre" class="form-control">
+                            {% for nombre in cursos_nombres %}
+                                {% if nombre == curso.nombre %}
+                                <option value="{{ nombre }}" selected>{{ nombre }}</option>
+                                {% else %}
+                                <option value="{{ nombre }}">{{ nombre }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group py-1">
+                            <input type="text" id = "txtcreditos" name="txtcreditos" value="{{curso.creditos}}" class="form-control" 
+                            placeholder="creditos" maxlength="6" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="txtdocente" name="txtdocente" class="form-control">
+                            {% for docentes in cursos_docentes %}
+                                {% if docentes == docentes.nombre %}
+                                <option value="{{ docentes }}" selected>{{ docentes }}</option>
+                                {% else %}
+                                <option value="{{ docentes }}">{{ docentes }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group py-1">
+                            <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock  %}
+
+

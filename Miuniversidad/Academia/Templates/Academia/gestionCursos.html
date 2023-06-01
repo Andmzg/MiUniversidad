@@ -1,0 +1,82 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block title %} Cursos {% endblock  %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div id="message" class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong class="text-dark">{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <h2>Gestion de cursos</h2>
+            <div class="card">
+                <div class="card-body py-4" >
+                    <form action="{% url 'academia:registrarcursos' %}" method = "POST"> {% csrf_token %}
+                        <div class="form-group py-1">
+                            <input type="text" id = "txtcodigo" name="txtcodigo" class="form-control" 
+                            placeholder="codigo" minlength="6" maxlength="6" required>
+                        </div> 
+                        <div class="form- group py-1">
+                            <input type="text" id = "txtnombre" name="txtnombre" class="form-control" 
+                            placeholder="nombre" maxlength="50" required>
+                        </div>
+                        <div class="form-group py-1">
+                            <input type="text" id = "txtcreditos" name="txtcreditos" class="form-control" 
+                            placeholder="creditos" maxlength="6" required>
+                        </div>
+                        <div class="form-group py-1">
+                            <input type="text" id = "txtdocente" name="txtdocente" class="form-control" 
+                            placeholder="docente" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+                <h1>Listado de Cursos</h1>
+                <div class="table-responsive py-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Codigo</th>
+                                <th>Nombre</th>
+                                <th>Credito</th>
+                                <th>Docente</th>
+                                <th colspan="2">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cursos in cursosListados %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{cursos.codigo}}</td>
+                                    <td>{{cursos.nombre}}</td>
+                                    <td>{{cursos.creditos}}</td>
+                                    <td>{{cursos.docente}}</td>
+                                    <td><a href="{% url 'academia:editcurso' cursos.codigo %}" class="btn btn-info">Editar</a></td>
+                                    <td><a href="{% url 'academia:eliminarcurso' cursos.codigo %}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
+    </div>
+{% endblock  %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'academia/js/gestioncurso.js' %}"></script>
+{% endblock %}

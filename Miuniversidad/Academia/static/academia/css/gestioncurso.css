@@ -1,0 +1,9 @@
+th, td {
+    text-align: center;
+    vertical-align: middle ;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 3s ease-in-out;
+}
